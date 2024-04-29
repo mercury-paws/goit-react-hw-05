@@ -1,9 +1,23 @@
+import HomePage from "./pages/HomePage/HomePage";
+import MovieCast from "./components/MovieCast/MovieCast";
+import MovieReviews from "./components/MovieReviews/MovieReviews";
+import MovieList from "./components/MovieList/MovieList";
+
+import {
+  fetchTrendingFilms,
+  fetchGenres,
+  fetchCast,
+  fetchReviews,
+  fetchSearchMovie,
+} from "./request-api";
 import { useEffect, useState } from "react";
-import { fetchTrendingFilms } from "./request-api";
 
 export default function App() {
   const [trendingFilms, setTrendingFilms] = useState([]);
-  const [isClicked, setIsClicked] = useState(false);
+  const [genres, setGenres] = useState([]);
+  const [cast, setCast] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [searchMovieResult, setsearchMovieResult] = useState([]);
 
   useEffect(() => {
     async function getTrendingFilms() {
@@ -14,16 +28,74 @@ export default function App() {
       } catch (error) {
         console.log(error);
       } finally {
-        console.log("smth was done");
+        console.log("smth happened");
       }
     }
     getTrendingFilms();
   }, []);
 
-  const handleImageClick = () => {
-    console.log(event.target);
-    setIsClicked(true);
-  };
+  useEffect(() => {
+    async function getGenres() {
+      try {
+        const data = await fetchGenres();
+        setGenres(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("smth was done");
+      }
+    }
+    getGenres();
+  }, []);
+
+  useEffect(() => {
+    async function getCast() {
+      try {
+        const data = await fetchCast(693134);
+        setCast(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("smth was done");
+      }
+    }
+    getCast();
+  }, []);
+
+  useEffect(() => {
+    async function getReviews() {
+      try {
+        const data = await fetchReviews(693134);
+        setReviews(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("smth was done");
+      }
+    }
+    getReviews();
+  }, []);
+
+  useEffect(() => {
+    async function searchMovie(query) {
+      if (query === null) {
+        return;
+      }
+      try {
+        const data = await fetchSearchMovie(query);
+        setsearchMovieResult(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("smth was done");
+      }
+    }
+    searchMovie("Batman");
+  }, []);
 
   return (
     <>
@@ -31,25 +103,10 @@ export default function App() {
         <button type="button">Home</button>
         <button type="button">Movies</button>
       </div>
-      <h1>Trending today</h1>
-      <ul>
-        {trendingFilms.map((film) => (
-          <li key={film.id}>
-            <div>
-              {
-                <img
-                  src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`}
-                  width="200"
-                  onClick={handleImageClick}
-                />
-              }
-              {isClicked && <p>{film.overview}</p>}
-              {film.original_title}
-              {film.vote_average}
-            </div>
-          </li>
-        ))}
-      </ul>
+      <MovieList searchMovie={searchMovie} />
+      <HomePage trendingFilms={trendingFilms} genres={genres} />
+      <MovieCast cast={cast} />
+      <MovieReviews reviews={reviews} />
     </>
   );
 }
