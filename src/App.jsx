@@ -1,8 +1,8 @@
 import HomePage from "./pages/HomePage/HomePage";
 import MovieCast from "./components/MovieCast/MovieCast";
 import MovieReviews from "./components/MovieReviews/MovieReviews";
-import MovieList from "./components/MovieList/MovieList";
-
+import MoviePage from "./pages/MoviesPage/MoviesPage";
+import Navigation from "./components/Navigation/Navigation";
 import {
   fetchTrendingFilms,
   fetchGenres,
@@ -11,6 +11,7 @@ import {
   fetchSearchMovie,
 } from "./request-api";
 import { useEffect, useState } from "react";
+import { Link, NavLink, Routes, Route } from "react-router-dom";
 
 export default function App() {
   const [trendingFilms, setTrendingFilms] = useState([]);
@@ -96,17 +97,33 @@ export default function App() {
 
   return (
     <>
-      <div>
-        <button type="button">Home</button>
-        <button type="button">Movies</button>
-      </div>
-      {/* <MovieList
-        searchMovie={searchMovie}
-        searchMovieResult={searchMovieResult}
-      /> */}
-      <HomePage trendingFilms={trendingFilms} genres={genres} />
-      <MovieCast cast={cast} />
-      <MovieReviews reviews={reviews} />
+      <Navigation />
+
+      <Routes>
+        <Route
+          path="/"
+          element={<HomePage trendingFilms={trendingFilms} genres={genres} />}
+        />
+        <Route
+          path="/movies"
+          element={
+            <MoviePage
+              searchMovie={searchMovie}
+              searchMovieResult={searchMovieResult}
+            />
+          }
+        />
+        {/* <Route path="/movies/:movieId"
+          element={} /> */}
+        <Route
+          path="/movies/:movieId/cast"
+          element={<MovieCast cast={cast} />}
+        />
+        <Route
+          path="/movies/:movieId/reviews"
+          element={<MovieReviews reviews={reviews} />}
+        />
+      </Routes>
     </>
   );
 }

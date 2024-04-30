@@ -1,0 +1,15 @@
+.isActive {
+  color: rgb(2, 2, 102);
+  border-bottom: 2px solid rgb(1, 1, 71);
+}
+
+.link {
+  color: black;
+  font-size: 25px;
+  text-decoration: none;
+}
+.navigation {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 25px;
+}
