@@ -69,8 +69,8 @@ export default function HomePage({ trendingFilms, genres }) {
                 clickedToWatch[film.id] ? css.istowatch : css.nottowatch
               )}
             >
-              <div>
-                {
+              <div className={css.filmCard}>
+                {/* {
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`}
                     width="40"
@@ -81,35 +81,40 @@ export default function HomePage({ trendingFilms, genres }) {
                   <MovieDetailsPage film={film} genres={genres} />
                 ) : (
                   //   <p>{film.overview}</p>
-                  <></>
-                )}
+                  
+                )} */}
                 <p
                   onClick={() => handleToWatchClick(film, film.id)}
                   className={clsx(
                     clickedToWatch[film.id] ? css.isLiked : css.notLiked
                   )}
                 >
-                  Title: {film.title}
+                  Title: <span className={css.filmName}>{film.title}</span>
                 </p>
-                <p>Average Vote: {film.vote_average}</p>
-                <p>
+                {/* <p>Average Vote: {film.vote_average}</p> */}
+                <button
+                  type="button"
+                  className={css.filmBtn}
+                  onClick={() => handleLikeClick(film, film.id)}
+                >
                   I loved it{" "}
                   <ImHeart
-                    onClick={() => handleLikeClick(film, film.id)}
                     className={clsx(
                       isLiked[film.id] ? css.isLiked : css.notLiked
                     )}
                   />
-                </p>
-                <p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleToWatchClick(film, film.id)}
+                >
                   Would like to watch{" "}
                   <ImForward3
-                    onClick={() => handleToWatchClick(film, film.id)}
                     className={clsx(
                       clickedToWatch[film.id] ? css.isLiked : css.notLiked
                     )}
                   />
-                </p>
+                </button>
               </div>
             </li>
           ))}

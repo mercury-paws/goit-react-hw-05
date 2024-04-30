@@ -12,3 +12,16 @@
 .nottowatch {
   color: black;
 }
+.filmCard {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.filmName {
+  font-weight: bold;
+}
+.filmBtn {
+  height: 30px;
+  padding: 5px;
+  width: auto;
+}
