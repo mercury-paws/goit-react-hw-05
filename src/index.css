@@ -8,9 +8,10 @@
 
 a {
   font-weight: 500;
+  text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: rgb(29, 29, 199);
 }
 
 body {
@@ -47,10 +48,10 @@ ul {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #ececec;
   }
   a:hover {
-    color: #747bff;
+    color: rgb(29, 29, 199);
   }
   button {
     background-color: #f9f9f9;

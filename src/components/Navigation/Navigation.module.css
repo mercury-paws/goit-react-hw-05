@@ -1,12 +1,13 @@
-.isActive {
-  color: rgb(2, 2, 102);
-  border-bottom: 2px solid rgb(1, 1, 71);
-}
-
 .link {
   color: black;
   font-size: 25px;
   text-decoration: none;
+  list-style-type: none;
+  text-decoration: none;
+}
+.isActive {
+  color: rgb(17, 17, 151);
+  border-bottom: 2px solid rgb(17, 17, 151);
 }
 .navigation {
   display: inline-flex;

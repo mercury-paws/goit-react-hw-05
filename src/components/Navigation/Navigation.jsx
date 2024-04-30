@@ -4,8 +4,8 @@ import clsx from "clsx";
 
 export default function Navigation() {
   return (
-    <nav className={css.navigation}>
-      <ul>
+    <nav>
+      <ul className={css.navigation}>
         <li>
           <NavLink
             to="/"
