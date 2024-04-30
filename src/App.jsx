@@ -79,23 +79,20 @@ export default function App() {
     getReviews();
   }, []);
 
-  useEffect(() => {
-    async function searchMovie(query) {
-      if (query === null) {
-        return;
-      }
-      try {
-        const data = await fetchSearchMovie(query);
-        setsearchMovieResult(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        console.log("smth was done");
-      }
+  async function searchMovie(query) {
+    if (!query) {
+      return;
     }
-    searchMovie("Batman");
-  }, []);
+    try {
+      const data = await fetchSearchMovie(query);
+      setsearchMovieResult(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("smth was done");
+    }
+  }
 
   return (
     <>
@@ -103,7 +100,10 @@ export default function App() {
         <button type="button">Home</button>
         <button type="button">Movies</button>
       </div>
-      <MovieList searchMovie={searchMovie} />
+      {/* <MovieList
+        searchMovie={searchMovie}
+        searchMovieResult={searchMovieResult}
+      /> */}
       <HomePage trendingFilms={trendingFilms} genres={genres} />
       <MovieCast cast={cast} />
       <MovieReviews reviews={reviews} />

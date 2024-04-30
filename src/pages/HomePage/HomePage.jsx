@@ -1,35 +1,59 @@
 import { useEffect, useState } from "react";
 import MovieDetailsPage from "../MovieDetailsPage/MovieDetailsPage";
-import { ImHeart } from "react-icons/im";
+import { ImHeart, ImForward3 } from "react-icons/im";
 import css from "./HomePage.module.css";
 import { clsx } from "clsx";
 
 export default function HomePage({ trendingFilms, genres }) {
   const [isClicked, setIsClicked] = useState(false);
-  const [isLiked, setIsLiked] = useState({});
+  const [clickedToWatch, setClickedToWatch] = useState(false);
   const [clickedFilmId, setClickedFilmId] = useState(null);
 
-  // useEffect(() => {
-  //   const storedLikedFilms = localStorage.getItem("isLiked");
-  //   if (isLiked) {
-  //     setIsLiked(JSON.parse(storedLikedFilms));
-  //   }
-  // }, []);
+  const [isLiked, setIsLiked] = useState(() => {
+    const savedValue = localStorage.getItem("likedFilms");
+    if (savedValue !== null) {
+      return JSON.parse(savedValue);
+    }
+    return false;
+  });
 
   const handleImageClick = (filmId) => {
     console.log(event.target);
     setIsClicked((prevState) => !prevState);
     setClickedFilmId(filmId);
   };
+  const handleToWatchClick = (film, filmId) => {
+    localStorage.setItem(`selectedFilm: ${filmId}`, film.title);
+    setClickedToWatch((prevToWatch) => {
+      const updatedtoWatch = {
+        ...prevToWatch,
+        [filmId]: !prevToWatch[filmId],
+      };
+      for (const qwe in updatedtoWatch) {
+        if (!updatedtoWatch[qwe]) {
+          delete updatedtoWatch[qwe];
+        }
+      }
+      localStorage.setItem("toWatch", JSON.stringify(updatedtoWatch));
+      return updatedtoWatch;
+    });
+  };
 
   const handleLikeClick = (film, filmId) => {
-    localStorage.setItem(`selectedFilm: ${filmId}`, film.original_title);
     console.log(filmId);
-    setIsLiked((prevIsLiked) => ({
-      ...prevIsLiked,
-      [filmId]: !prevIsLiked[filmId],
-    }));
-    localStorage.setItem("likedFilms", JSON.stringify(isLiked));
+    setIsLiked((prevIsLiked) => {
+      const updatedIsLiked = {
+        ...prevIsLiked,
+        [filmId]: !prevIsLiked[filmId],
+      };
+      for (const qwe in updatedIsLiked) {
+        if (!updatedIsLiked[qwe]) {
+          delete updatedIsLiked[qwe];
+        }
+      }
+      localStorage.setItem("likedFilms", JSON.stringify(updatedIsLiked));
+      return updatedIsLiked;
+    });
   };
 
   return (
@@ -39,7 +63,12 @@ export default function HomePage({ trendingFilms, genres }) {
         {trendingFilms
           .sort((a, b) => b.vote_average - a.vote_average)
           .map((film) => (
-            <li key={film.id}>
+            <li
+              key={film.id}
+              className={clsx(
+                clickedToWatch[film.id] ? css.istowatch : css.nottowatch
+              )}
+            >
               <div>
                 {
                   <img
@@ -54,14 +83,33 @@ export default function HomePage({ trendingFilms, genres }) {
                   //   <p>{film.overview}</p>
                   <></>
                 )}
-                <p>Title: {film.original_title}</p>
-                <p>Average Vote: {film.vote_average}</p>
-                <ImHeart
-                  onClick={() => handleLikeClick(film, film.id)}
+                <p
+                  onClick={() => handleToWatchClick(film, film.id)}
                   className={clsx(
-                    isLiked[film.id] ? css.isLiked : css.notLiked
+                    clickedToWatch[film.id] ? css.isLiked : css.notLiked
                   )}
-                />
+                >
+                  Title: {film.title}
+                </p>
+                <p>Average Vote: {film.vote_average}</p>
+                <p>
+                  I loved it{" "}
+                  <ImHeart
+                    onClick={() => handleLikeClick(film, film.id)}
+                    className={clsx(
+                      isLiked[film.id] ? css.isLiked : css.notLiked
+                    )}
+                  />
+                </p>
+                <p>
+                  Would like to watch{" "}
+                  <ImForward3
+                    onClick={() => handleToWatchClick(film, film.id)}
+                    className={clsx(
+                      clickedToWatch[film.id] ? css.isLiked : css.notLiked
+                    )}
+                  />
+                </p>
               </div>
             </li>
           ))}

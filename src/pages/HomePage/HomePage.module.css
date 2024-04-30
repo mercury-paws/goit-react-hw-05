@@ -4,3 +4,11 @@
 .notLiked {
   fill: black;
 }
+
+.istowatch {
+  color: teal;
+}
+
+.nottowatch {
+  color: black;
+}
