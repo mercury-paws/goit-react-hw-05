@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ImHeart, ImForward3 } from "react-icons/im";
 import clsx from "clsx";
 import css from "./MovieDetailsPage.module.css";
-import { useParams, Outlet } from "react-router-dom";
+import { useParams, Outlet, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import MovieCast from "../../components/MovieCast/MovieCast.jsx";
 import MovieReviews from "../../components/MovieReviews/MovieReviews.jsx";
@@ -14,9 +14,10 @@ export default function MovieDetailsPage() {
   const [genres, setGenres] = useState([]);
   const [movieInfo, setmovieInfo] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
-
   const [clickedFilmId, setClickedFilmId] = useState(null);
 
+  const location = useLocation();
+  console.log(location);
   useEffect(() => {
     async function getMovieDetailes() {
       try {
