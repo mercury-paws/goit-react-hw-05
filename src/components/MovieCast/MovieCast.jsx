@@ -1,4 +1,23 @@
-export default function MovieCast({ cast }) {
+import { useEffect, useState } from "react";
+import { fetchCast } from "../../request-api";
+
+export default function MovieCast() {
+  const [cast, setCast] = useState([]);
+  useEffect(() => {
+    async function getCast() {
+      try {
+        const data = await fetchCast(693134);
+        setCast(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("smth was done");
+      }
+    }
+    getCast();
+  }, []);
+
   console.log(cast);
   return (
     <>

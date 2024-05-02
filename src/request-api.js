@@ -22,6 +22,20 @@ export const fetchTrendingFilms = async () => {
   // console.log(response.data);
 };
 
+export const fetchMovieInfo = async (movie_id) => {
+  const response = await axios.get(`movie/${movie_id}`, {
+    params: {
+      api_key: API_KEY,
+    },
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  });
+  return response.data.results;
+  // console.log(response.data);
+};
+
 export const fetchGenres = async () => {
   const response = await axios.get("genre/movie/list", {
     params: {

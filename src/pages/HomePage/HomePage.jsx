@@ -1,121 +1,44 @@
 import { useEffect, useState } from "react";
-import MovieDetailsPage from "../MovieDetailsPage/MovieDetailsPage";
-import { ImHeart, ImForward3 } from "react-icons/im";
 import css from "./HomePage.module.css";
-import { clsx } from "clsx";
+import { fetchTrendingFilms } from "../../request-api";
+import MovieList from "../../components/MovieList/MovieList";
 
-export default function HomePage({ trendingFilms, genres }) {
-  const [isClicked, setIsClicked] = useState(false);
-  const [clickedToWatch, setClickedToWatch] = useState(false);
-  const [clickedFilmId, setClickedFilmId] = useState(null);
+export default function HomePage() {
+  const [trendingFilms, setTrendingFilms] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const [isLiked, setIsLiked] = useState(() => {
-    const savedValue = localStorage.getItem("likedFilms");
-    if (savedValue !== null) {
-      return JSON.parse(savedValue);
+  useEffect(() => {
+    async function getTrendingFilms() {
+      try {
+        setLoading(true);
+        setError(false);
+        const data = await fetchTrendingFilms();
+        setTrendingFilms(data);
+        console.log(data);
+      } catch (error) {
+        setError(true);
+        setLoading(false);
+        console.log(error);
+      } finally {
+        setLoading(false);
+        console.log("smth happened");
+      }
     }
-    return false;
-  });
-
-  const handleImageClick = (filmId) => {
-    console.log(event.target);
-    setIsClicked((prevState) => !prevState);
-    setClickedFilmId(filmId);
-  };
-  const handleToWatchClick = (film, filmId) => {
-    localStorage.setItem(`selectedFilm: ${filmId}`, film.title);
-    setClickedToWatch((prevToWatch) => {
-      const updatedtoWatch = {
-        ...prevToWatch,
-        [filmId]: !prevToWatch[filmId],
-      };
-      for (const qwe in updatedtoWatch) {
-        if (!updatedtoWatch[qwe]) {
-          delete updatedtoWatch[qwe];
-        }
-      }
-      localStorage.setItem("toWatch", JSON.stringify(updatedtoWatch));
-      return updatedtoWatch;
-    });
-  };
-
-  const handleLikeClick = (film, filmId) => {
-    console.log(filmId);
-    setIsLiked((prevIsLiked) => {
-      const updatedIsLiked = {
-        ...prevIsLiked,
-        [filmId]: !prevIsLiked[filmId],
-      };
-      for (const qwe in updatedIsLiked) {
-        if (!updatedIsLiked[qwe]) {
-          delete updatedIsLiked[qwe];
-        }
-      }
-      localStorage.setItem("likedFilms", JSON.stringify(updatedIsLiked));
-      return updatedIsLiked;
-    });
-  };
+    getTrendingFilms();
+  }, []);
 
   return (
     <>
       <h1>Trending today</h1>
+      {loading && <b>Loading page...</b>}
+      {error && <b>Error</b>}
       <ol>
         {trendingFilms
           .sort((a, b) => b.vote_average - a.vote_average)
-          .map((film) => (
-            <li
-              key={film.id}
-              className={clsx(
-                clickedToWatch[film.id] ? css.istowatch : css.nottowatch
-              )}
-            >
-              <div className={css.filmCard}>
-                {/* {
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`}
-                    width="40"
-                    onClick={() => handleImageClick(film.id)}
-                  />
-                }
-                {isClicked && clickedFilmId === film.id ? (
-                  <MovieDetailsPage film={film} genres={genres} />
-                ) : (
-                  //   <p>{film.overview}</p>
-                  
-                )} */}
-                <p
-                  onClick={() => handleToWatchClick(film, film.id)}
-                  className={clsx(
-                    clickedToWatch[film.id] ? css.isLiked : css.notLiked
-                  )}
-                >
-                  Title: <span className={css.filmName}>{film.title}</span>
-                </p>
-                {/* <p>Average Vote: {film.vote_average}</p> */}
-                <button
-                  type="button"
-                  className={css.filmBtn}
-                  onClick={() => handleLikeClick(film, film.id)}
-                >
-                  I loved it{" "}
-                  <ImHeart
-                    className={clsx(
-                      isLiked[film.id] ? css.isLiked : css.notLiked
-                    )}
-                  />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleToWatchClick(film, film.id)}
-                >
-                  Would like to watch{" "}
-                  <ImForward3
-                    className={clsx(
-                      clickedToWatch[film.id] ? css.isLiked : css.notLiked
-                    )}
-                  />
-                </button>
-              </div>
+          .map((movie) => (
+            <li key={movie.id}>
+              <MovieList movie={movie} />
             </li>
           ))}
       </ol>

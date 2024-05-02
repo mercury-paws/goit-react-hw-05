@@ -1,4 +1,22 @@
-export default function MovieReviews({ reviews }) {
+import { useEffect, useState } from "react";
+import { fetchReviews } from "../../request-api";
+
+export default function MovieReviews() {
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    async function getReviews() {
+      try {
+        const data = await fetchReviews(693134);
+        setReviews(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("smth was done");
+      }
+    }
+    getReviews();
+  }, []);
   console.log(reviews);
   return (
     <>

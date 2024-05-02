@@ -1,4 +1,24 @@
-export default function MoviePage({ searchMovie, searchMovieResult }) {
+import { fetchSearchMovie } from "../../request-api";
+import { useState } from "react";
+import MovieList from "../../components/MovieList/MovieList";
+
+export default function MoviePage() {
+  const [searchMovieResult, setsearchMovieResult] = useState([]);
+
+  async function searchMovie(query) {
+    if (!query) {
+      return;
+    }
+    try {
+      const data = await fetchSearchMovie(query);
+      setsearchMovieResult(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("smth was done");
+    }
+  }
   const searchingTheFilm = (event) => {
     event.preventDefault();
     const query = event.target.elements.searchQuery.value.trim();
@@ -21,8 +41,7 @@ export default function MoviePage({ searchMovie, searchMovieResult }) {
           })
           .map((movie) => (
             <li key={movie.id}>
-              <h4>{movie.title}</h4>
-              <p>Year: {movie.release_date.slice(0, 4)}</p>
+              <MovieList movie={movie} />
             </li>
           ))}
       </ul>
