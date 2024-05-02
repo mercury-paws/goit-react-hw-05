@@ -20,15 +20,6 @@ export default function Navigation() {
             MoviesPage
           </NavLink>
         </li>
-        <li>
-          <NavLink to="/movies/:movieId">MovieDetailsPage</NavLink>
-        </li>
-        <li>
-          <NavLink to="/movies/:movieId/cast">MovieCast</NavLink>
-        </li>
-        <li>
-          <NavLink to="/movies/:movieId/reviews">MovieReviews</NavLink>
-        </li>
       </ul>
     </nav>
   );

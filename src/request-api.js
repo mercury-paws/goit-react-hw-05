@@ -7,6 +7,7 @@ const API_TOKEN =
 axios.defaults.baseURL = "https://api.themoviedb.org/3";
 
 //https://api.themoviedb.org/3/search/movie/?query=Batman&api_key=d213862c0092dda4b7725e306d2b5265
+//https://api.themoviedb.org/3/movie/:movieId?api_key=d213862c0092dda4b7725e306d2b5265
 
 export const fetchTrendingFilms = async () => {
   const response = await axios.get("trending/movie/day", {
@@ -22,8 +23,8 @@ export const fetchTrendingFilms = async () => {
   // console.log(response.data);
 };
 
-export const fetchMovieInfo = async (movie_id) => {
-  const response = await axios.get(`movie/${movie_id}`, {
+export const fetchMovieDetails = async (movieId) => {
+  const response = await axios.get(`movie/${movieId}`, {
     params: {
       api_key: API_KEY,
     },
@@ -32,7 +33,7 @@ export const fetchMovieInfo = async (movie_id) => {
       Authorization: `Bearer ${API_TOKEN}`,
     },
   });
-  return response.data.results;
+  return response.data;
   // console.log(response.data);
 };
 
