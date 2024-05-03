@@ -67,10 +67,11 @@ export default function MovieDetailsPage() {
     }
     return false;
   });
-  const handleLikeClick = (filmId) => {
+  const handleLikeClick = (filmId, name) => {
     setIsLiked((prevIsLiked) => {
       const updatedIsLiked = {
         ...prevIsLiked,
+
         [filmId]: !prevIsLiked[filmId],
       };
       for (const qwe in updatedIsLiked) {
@@ -127,7 +128,7 @@ export default function MovieDetailsPage() {
           <button
             type="button"
             className={css.filmBtn}
-            onClick={() => handleLikeClick(movieId)}
+            onClick={() => handleLikeClick(movieId, movieInfo.original_title)}
           >
             I loved it{" "}
             <ImHeart

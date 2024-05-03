@@ -8,6 +8,16 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const [toWatch, setToWatch] = useState(() => {
+    const savedValue = localStorage.getItem("toWatch");
+    return savedValue ? JSON.parse(savedValue) : {};
+  });
+  console.log(toWatch);
+  const [liked, setToLike] = useState(() => {
+    const savedValue = localStorage.getItem("likedFilms");
+    return savedValue ? JSON.parse(savedValue) : {};
+  });
+
   useEffect(() => {
     async function getTrendingFilms() {
       try {
@@ -33,7 +43,7 @@ export default function HomePage() {
       <h1>Trending today</h1>
       {loading && <b>Loading page...</b>}
       {error && <b>Error</b>}
-      <div>
+      <div className={css.homepage}>
         <ol>
           {trendingFilms
             .sort((a, b) => b.vote_average - a.vote_average)
@@ -43,6 +53,18 @@ export default function HomePage() {
               </li>
             ))}
         </ol>
+        <div className={css.likeToWatchContainer}>
+          <ul className={css.likeContainer}>
+            {Object.keys(liked).map((movieId) => (
+              <li key={movieId}>{movieId}</li>
+            ))}
+          </ul>
+          <ul className={css.toWatchContainer}>
+            {Object.keys(toWatch).map((movieId) => (
+              <li key={movieId}>{movieId}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
