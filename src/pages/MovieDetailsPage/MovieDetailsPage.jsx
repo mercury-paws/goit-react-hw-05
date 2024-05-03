@@ -1,9 +1,9 @@
 import { fetchGenres, fetchMovieDetails } from "../../request-api.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { ImHeart, ImForward3 } from "react-icons/im";
 import clsx from "clsx";
 import css from "./MovieDetailsPage.module.css";
-import { useParams, Outlet, useLocation } from "react-router-dom";
+import { useParams, Outlet, useLocation, Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import MovieCast from "../../components/MovieCast/MovieCast.jsx";
 import MovieReviews from "../../components/MovieReviews/MovieReviews.jsx";
@@ -18,6 +18,9 @@ export default function MovieDetailsPage() {
 
   const location = useLocation();
   console.log(location);
+  const backLinkUrlRef = useRef(location.state || "/movies");
+  console.log(backLinkUrlRef);
+
   useEffect(() => {
     async function getMovieDetailes() {
       try {
@@ -107,7 +110,7 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      <button>Go Back</button>
+      <Link to={backLinkUrlRef.current}>Go Back</Link>
       {movieInfo && (
         <>
           <p>MovieInfo: {movieInfo.title}</p>
@@ -149,7 +152,9 @@ export default function MovieDetailsPage() {
               <NavLink to="reviews">Reviews</NavLink>
             </li>
           </ul>
-          <Outlet />
+          <Suspense fallback={<div>Please wait, page is loading...</div>}>
+            <Outlet />
+          </Suspense>
         </>
       )}
     </>

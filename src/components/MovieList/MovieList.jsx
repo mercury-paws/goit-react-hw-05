@@ -5,7 +5,9 @@ export default function MovieList({ movie }) {
 
   return (
     <>
-      <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+      <Link to={`/movies/${movie.id}`} state={location}>
+        {movie.title}
+      </Link>
       <p>Year: {movie.release_date.slice(0, 4)}</p>
       <p>Average Vote: {movie.vote_average}</p>
     </>

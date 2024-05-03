@@ -33,15 +33,17 @@ export default function HomePage() {
       <h1>Trending today</h1>
       {loading && <b>Loading page...</b>}
       {error && <b>Error</b>}
-      <ol>
-        {trendingFilms
-          .sort((a, b) => b.vote_average - a.vote_average)
-          .map((movie) => (
-            <li key={movie.id}>
-              <MovieList movie={movie} />
-            </li>
-          ))}
-      </ol>
+      <div>
+        <ol>
+          {trendingFilms
+            .sort((a, b) => b.vote_average - a.vote_average)
+            .map((movie) => (
+              <li key={movie.id}>
+                <MovieList movie={movie} />
+              </li>
+            ))}
+        </ol>
+      </div>
     </>
   );
 }
