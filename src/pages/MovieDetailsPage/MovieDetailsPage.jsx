@@ -7,6 +7,7 @@ import { useParams, Outlet, useLocation, Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import MovieCast from "../../components/MovieCast/MovieCast.jsx";
 import MovieReviews from "../../components/MovieReviews/MovieReviews.jsx";
+import { SiTrueup } from "react-icons/si";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -17,9 +18,7 @@ export default function MovieDetailsPage() {
   const [clickedFilmId, setClickedFilmId] = useState(null);
 
   const location = useLocation();
-  console.log(location);
   const backLinkUrlRef = useRef(location.state || "/movies");
-  console.log(backLinkUrlRef);
 
   useEffect(() => {
     async function getMovieDetailes() {
@@ -44,12 +43,12 @@ export default function MovieDetailsPage() {
     return false;
   });
 
-  const handleToWatchClick = (filmId) => {
-    localStorage.setItem(`selectedFilm: ${filmId}`, movieInfo.title);
+  const handleToWatchClick = (name) => {
+    // localStorage.setItem(`selectedFilm: ${filmId}`, movieInfo.title);
     setClickedToWatch((prevToWatch) => {
       const updatedtoWatch = {
         ...prevToWatch,
-        [filmId]: !prevToWatch[filmId],
+        [name]: !prevToWatch[name],
       };
       for (const key in updatedtoWatch) {
         if (!updatedtoWatch[key]) {
@@ -67,12 +66,11 @@ export default function MovieDetailsPage() {
     }
     return false;
   });
-  const handleLikeClick = (filmId, name) => {
+  const handleLikeClick = (name) => {
     setIsLiked((prevIsLiked) => {
       const updatedIsLiked = {
         ...prevIsLiked,
-
-        [filmId]: !prevIsLiked[filmId],
+        [name]: !prevIsLiked[name],
       };
       for (const qwe in updatedIsLiked) {
         if (!updatedIsLiked[qwe]) {
@@ -111,52 +109,69 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      <Link to={backLinkUrlRef.current}>Go Back</Link>
+      <Link to={backLinkUrlRef.current} className={css.goBack}>
+        Go Back
+      </Link>
       {movieInfo && (
-        <>
-          <p>MovieInfo: {movieInfo.title}</p>
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${movieInfo.poster_path}`}
-            width="200"
-          />
-          <h3>{movieInfo.original_title}</h3>
-          <p>User Score: {movieInfo.vote_average}</p>
-          <h4>Overview</h4>
-          <p>{movieInfo.overview}</p>
-          <h4>Genres</h4>
-          <p>{getGenreNames(movieInfo)}</p>
-          <button
-            type="button"
-            className={css.filmBtn}
-            onClick={() => handleLikeClick(movieId, movieInfo.original_title)}
-          >
-            I loved it{" "}
-            <ImHeart
-              className={clsx(isLiked[movieId] ? css.isLiked : css.notLiked)}
+        <div className={css.movieContainer}>
+          <div className={css.genInfo}>
+            <img
+              src={`https://image.tmdb.org/t/p/w500/${movieInfo.poster_path}`}
+              width="300"
             />
-          </button>
-          <button type="button" onClick={() => handleToWatchClick(movieId)}>
-            Would like to watch{" "}
-            <ImForward3
-              onClick={() => handleToWatchClick(movieId)}
-              className={clsx(
-                clickedToWatch[movieId] ? css.isLiked : css.notLiked
-              )}
-            />
-          </button>
-          <p>Additional information</p>
-          <ul>
-            <li>
-              <NavLink to="cast">Cast</NavLink>
-            </li>
-            <li>
-              <NavLink to="reviews">Reviews</NavLink>
-            </li>
-          </ul>
+            <div>
+              <h3 className={css.title}>{movieInfo.title}</h3>
+              <p className={css.text}>User Score: {movieInfo.vote_average}</p>
+              <h4>Overview</h4>
+              <p>{movieInfo.overview}</p>
+              <h4>Genres</h4>
+              <p>{getGenreNames(movieInfo)}</p>
+              <div className={css.containerBtn}>
+                <button
+                  type="button"
+                  className={css.filmBtn}
+                  onClick={() => handleLikeClick(movieInfo.title)}
+                >
+                  I loved it{" "}
+                  <ImHeart
+                    className={clsx(
+                      isLiked[movieInfo.title] ? css.isLiked : css.notLiked
+                    )}
+                  />
+                </button>
+                <button
+                  type="button"
+                  className={css.filmBtn}
+                  onClick={() => handleToWatchClick(movieInfo.title)}
+                >
+                  Would like to watch{" "}
+                  <ImForward3
+                    onClick={() => handleToWatchClick(movieId)}
+                    className={clsx(
+                      clickedToWatch[movieInfo.title]
+                        ? css.isLiked
+                        : css.notLiked
+                    )}
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className={css.addInfo}>
+            <p className={css.addPar}>Additional information</p>
+            <ul>
+              <li>
+                <NavLink to="cast">Cast</NavLink>
+              </li>
+              <li>
+                <NavLink to="reviews">Reviews</NavLink>
+              </li>
+            </ul>
+          </div>
           <Suspense fallback={<div>Please wait, page is loading...</div>}>
             <Outlet />
           </Suspense>
-        </>
+        </div>
       )}
     </>
   );

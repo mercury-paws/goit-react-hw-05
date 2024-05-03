@@ -23,5 +23,46 @@
 .filmBtn {
   height: 30px;
   padding: 5px;
-  width: auto;
+
+  width: 200px;
+  font-size: 15px;
+}
+.goBack {
+  font-size: 15px;
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: aliceblue;
+}
+.movieContainer {
+  margin-top: 50px;
+}
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.genInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  margin-bottom: 50px;
+}
+.addPar {
+  font-size: 20px;
+  font-weight: bold;
+}
+.containerBtn {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  margin-top: 25px;
+}
+.text {
+  font-size: 20px;
+}
+.addInfo {
+  border-top: 1px solid rgb(97, 97, 97);
+  border-bottom: 1px solid rgb(97, 97, 97);
+  padding: 10px;
 }

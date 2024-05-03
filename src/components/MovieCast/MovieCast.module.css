@@ -1,0 +1,17 @@
+.cardItem {
+  display: flex;
+  flex-direction: column;
+
+  gap: 15px;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+}
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}

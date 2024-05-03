@@ -18,6 +18,34 @@ export default function HomePage() {
     return savedValue ? JSON.parse(savedValue) : {};
   });
 
+  const handleUnlike = (movieName) => {
+    const savedValue = JSON.parse(localStorage.getItem("likedFilms"));
+    console.log(savedValue);
+
+    savedValue[movieName] = false;
+    for (const key in savedValue) {
+      if (!savedValue[key]) {
+        delete savedValue[key];
+      }
+    }
+    localStorage.setItem("likedFilms", JSON.stringify(savedValue));
+    setToLike(savedValue);
+  };
+
+  const handleDeleteToWatch = (movieName) => {
+    const savedValue = JSON.parse(localStorage.getItem("toWatch"));
+    console.log(savedValue);
+
+    savedValue[movieName] = false;
+    for (const key in savedValue) {
+      if (!savedValue[key]) {
+        delete savedValue[key];
+      }
+    }
+    localStorage.setItem("toWatch", JSON.stringify(savedValue));
+    setToWatch(savedValue);
+  };
+
   useEffect(() => {
     async function getTrendingFilms() {
       try {
@@ -53,17 +81,40 @@ export default function HomePage() {
               </li>
             ))}
         </ol>
-        <div className={css.likeToWatchContainer}>
-          <ul className={css.likeContainer}>
-            {Object.keys(liked).map((movieId) => (
-              <li key={movieId}>{movieId}</li>
-            ))}
-          </ul>
-          <ul className={css.toWatchContainer}>
-            {Object.keys(toWatch).map((movieId) => (
-              <li key={movieId}>{movieId}</li>
-            ))}
-          </ul>
+        <div className={css.container}>
+          <h3>My film list</h3>
+          <div className={css.likeToWatchContainer}>
+            <ul className={css.likeContainer}>
+              <h4 className={css.headerFour}>Liked films</h4>
+              {Object.keys(liked).map((movieName) => (
+                <li key={movieName} className={css.filmNameList}>
+                  <div className={css.name}>{movieName}</div>
+                  <button
+                    type="button"
+                    className={css.deleteBtn}
+                    onClick={() => handleUnlike(movieName)}
+                  >
+                    Unlike
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <ul className={css.toWatchContainer}>
+              <h4 className={css.headerFour}>Films to watch</h4>
+              {Object.keys(toWatch).map((movieName) => (
+                <li key={movieName} className={css.filmNameList}>
+                  <div className={css.name}>{movieName}</div>
+                  <button
+                    onClick={() => handleDeleteToWatch(movieName)}
+                    type="button"
+                    className={css.deleteBtn}
+                  >
+                    Remove from watchlist
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </>
