@@ -36,7 +36,7 @@ export default function MovieCast() {
                   width="90"
                 />
               ) : (
-                <p>No Photo</p>
+                <p className={css.noPhoto}>No Photo</p>
               )}
               <div>
                 <p>Name: {actor.original_name}</p>

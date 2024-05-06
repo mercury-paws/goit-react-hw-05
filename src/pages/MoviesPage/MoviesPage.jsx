@@ -9,6 +9,8 @@ export default function MoviePage() {
   const query = searchParams.get("query") ?? "";
   const location = useLocation();
   console.log("location:", location);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function searchingTheFilm() {
@@ -16,12 +18,16 @@ export default function MoviePage() {
         return;
       }
       try {
+        setLoading(true);
+        setError(false);
         const data = await fetchSearchMovie(query);
         setsearchMovieResult(data);
         console.log(data);
       } catch (error) {
+        setError(true);
         console.log(error);
       } finally {
+        setLoading(false);
         console.log("smth was done");
       }
     }
@@ -44,6 +50,8 @@ export default function MoviePage() {
           Search
         </button>
       </form>
+      {loading && <b>Loading page...</b>}
+      {error && <b>Error</b>}
       <ul>
         {searchMovieResult
           .sort((a, b) => {
