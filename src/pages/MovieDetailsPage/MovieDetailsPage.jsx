@@ -5,9 +5,6 @@ import clsx from "clsx";
 import css from "./MovieDetailsPage.module.css";
 import { useParams, Outlet, useLocation, Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import MovieCast from "../../components/MovieCast/MovieCast.jsx";
-import MovieReviews from "../../components/MovieReviews/MovieReviews.jsx";
-import { SiTrueup } from "react-icons/si";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();

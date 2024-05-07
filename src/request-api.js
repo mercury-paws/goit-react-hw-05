@@ -61,7 +61,7 @@ export const fetchTrendingTVShows = async () => {
       Authorization: `Bearer ${API_TOKEN}`,
     },
   });
-  return response.data;
+  return response.data.results;
 };
 
 export const fetchSearchMovie = async (movieName) => {
