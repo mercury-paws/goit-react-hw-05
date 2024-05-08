@@ -37,6 +37,20 @@ export const fetchMovieDetails = async (movieId) => {
   // console.log(response.data);
 };
 
+export const fetchTVShowDetails = async (movieId) => {
+  const response = await axios.get(`tv/${movieId}`, {
+    params: {
+      api_key: API_KEY,
+    },
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  });
+  return response.data;
+  // console.log(response.data);
+};
+
 export const fetchGenres = async () => {
   const response = await axios.get("genre/movie/list", {
     params: {
@@ -100,6 +114,34 @@ export const fetchCast = async (movie_id) => {
 
 export const fetchReviews = async (movie_id) => {
   const response = await axios.get(`movie/${movie_id}/reviews`, {
+    params: {
+      api_key: API_KEY,
+    },
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  });
+  return response.data.results;
+  // console.log(response.data.results);
+};
+
+export const fetchTVCast = async (movie_id) => {
+  const response = await axios.get(`tv/${movie_id}/credits`, {
+    params: {
+      api_key: API_KEY,
+    },
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
+    },
+  });
+  return response.data.crew;
+  // console.log(response);
+};
+
+export const fetchTVReviews = async (movie_id) => {
+  const response = await axios.get(`tv/${movie_id}/reviews`, {
     params: {
       api_key: API_KEY,
     },

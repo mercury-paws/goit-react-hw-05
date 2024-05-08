@@ -14,7 +14,7 @@ export default function HomePage() {
     const savedValue = localStorage.getItem("toWatch");
     return savedValue ? JSON.parse(savedValue) : {};
   });
-  console.log(toWatch);
+
   const [liked, setToLike] = useState(() => {
     const savedValue = localStorage.getItem("likedFilms");
     return savedValue ? JSON.parse(savedValue) : {};

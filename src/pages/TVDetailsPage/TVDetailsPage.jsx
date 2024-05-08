@@ -1,12 +1,12 @@
-import { fetchGenres, fetchMovieDetails } from "../../request-api.js";
+import { fetchGenres, fetchTVShowDetails } from "../../request-api.js";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { ImHeart, ImForward3 } from "react-icons/im";
 import clsx from "clsx";
-import css from "./MovieDetailsPage.module.css";
+import css from "./TVDetailsPage.module.css";
 import { useParams, Outlet, useLocation, Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
-export default function MovieDetailsPage() {
+export default function TVDetailsPage() {
   const { movieId } = useParams();
 
   const [genres, setGenres] = useState([]);
@@ -18,7 +18,7 @@ export default function MovieDetailsPage() {
   useEffect(() => {
     async function getMovieDetailes() {
       try {
-        const data = await fetchMovieDetails(movieId);
+        const data = await fetchTVShowDetails(movieId);
         setmovieInfo(data);
         console.log(data);
       } catch (error) {
@@ -115,7 +115,7 @@ export default function MovieDetailsPage() {
               width="300"
             />
             <div>
-              <h3 className={css.title}>{movieInfo.title}</h3>
+              <h3 className={css.title}>{movieInfo.name}</h3>
               <p className={css.text}>User Score: {movieInfo.vote_average}</p>
               <h4>Overview</h4>
               <p>{movieInfo.overview}</p>
@@ -125,25 +125,25 @@ export default function MovieDetailsPage() {
                 <button
                   type="button"
                   className={css.filmBtn}
-                  onClick={() => handleLikeClick(movieInfo.title)}
+                  onClick={() => handleLikeClick(movieInfo.name)}
                 >
                   I loved it{" "}
                   <ImHeart
                     className={clsx(
-                      isLiked[movieInfo.title] ? css.isLiked : css.notLiked
+                      isLiked[movieInfo.name] ? css.isLiked : css.notLiked
                     )}
                   />
                 </button>
                 <button
                   type="button"
                   className={css.filmBtn}
-                  onClick={() => handleToWatchClick(movieInfo.title)}
+                  onClick={() => handleToWatchClick(movieInfo.name)}
                 >
                   Would like to watch{" "}
                   <ImForward3
-                    // onClick={() => handleToWatchClick(movieId)}
+                    // onClick={() => handleToWatchClick(movieInfo.name)}
                     className={clsx(
-                      clickedToWatch[movieInfo.title]
+                      clickedToWatch[movieInfo.name]
                         ? css.isLiked
                         : css.notLiked
                     )}

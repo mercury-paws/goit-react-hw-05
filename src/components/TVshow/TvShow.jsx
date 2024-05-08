@@ -5,7 +5,7 @@ export default function TvShow({ tvshow }) {
 
   return (
     <div className={css.movieList}>
-      <Link to={`/movies/${tvshow.id}`} state={location}>
+      <Link to={`/tv/${tvshow.id}`} state={location}>
         {tvshow.name}
       </Link>
       <p>Year: {tvshow.first_air_date.slice(0, 4)}</p>
