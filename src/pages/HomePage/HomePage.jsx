@@ -92,7 +92,7 @@ export default function HomePage() {
 
   async function fetchLiked() {
     try {
-      const data = await fetchLikedFilms();
+      const data = await fetchLikedFilms(1);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -102,7 +102,7 @@ export default function HomePage() {
   return (
     <>
       <h1>Trending today</h1>
-      <button onClick={() => fetchLiked()}>fetch</button>
+      <button onClick={() => fetchLiked(1)}>fetch</button>
       {loading && <b>Loading page...</b>}
       {error && <b>Error</b>}
       <div className={css.homepage}>
