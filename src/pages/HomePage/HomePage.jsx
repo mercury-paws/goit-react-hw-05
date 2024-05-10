@@ -3,6 +3,8 @@ import css from "./HomePage.module.css";
 import { fetchTrendingFilms, fetchTrendingTVShows } from "../../request-api";
 import MovieList from "../../components/MovieList/MovieList";
 import TvShow from "../../components/TVshow/TvShow";
+import { Link } from "react-router-dom";
+import { fetchLikedFilms } from "../../backend_api";
 
 export default function HomePage() {
   const [trendingFilms, setTrendingFilms] = useState([]);
@@ -88,9 +90,19 @@ export default function HomePage() {
     getTrendingTVShows();
   }, []);
 
+  async function fetchLiked() {
+    try {
+      const data = await fetchLikedFilms();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <h1>Trending today</h1>
+      <button onClick={() => fetchLiked()}>fetch</button>
       {loading && <b>Loading page...</b>}
       {error && <b>Error</b>}
       <div className={css.homepage}>
@@ -118,18 +130,26 @@ export default function HomePage() {
           <div className={css.likeToWatchContainer}>
             <ul className={css.likeContainer}>
               <h4 className={css.headerFour}>Liked films</h4>
-              {Object.keys(liked).map((movieName) => (
-                <li key={movieName} className={css.filmNameList}>
-                  <div className={css.name}>{movieName}</div>
-                  <button
-                    type="button"
-                    className={css.deleteBtn}
-                    onClick={() => handleUnlike(movieName)}
-                  >
-                    Unlike
-                  </button>
-                </li>
-              ))}
+
+              {Object.keys(liked).map((key) => {
+                if (key === "id") return null;
+                return (
+                  <li key={key} className={css.filmNameList}>
+                    <div className={css.name}>
+                      <Link to={`/movies/${liked.id}`} className={css.name}>
+                        {key}
+                      </Link>
+                    </div>
+                    <button
+                      type="button"
+                      className={css.deleteBtn}
+                      onClick={() => handleUnlike(key)}
+                    >
+                      Unlike
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
             <ul className={css.toWatchContainer}>
               <h4 className={css.headerFour}>Films to watch</h4>
