@@ -17,12 +17,12 @@ export default function HomePage() {
   });
 
   const [liked, setToLike] = useState(() => {
-    const savedValue = localStorage.getItem("likedFilms");
+    const savedValue = localStorage.getItem("likes");
     return savedValue ? JSON.parse(savedValue) : {};
   });
 
   const handleUnlike = (movieName) => {
-    const savedValue = JSON.parse(localStorage.getItem("likedFilms"));
+    const savedValue = JSON.parse(localStorage.getItem("likes"));
     console.log(savedValue);
 
     savedValue[movieName] = false;
@@ -31,7 +31,7 @@ export default function HomePage() {
         delete savedValue[key];
       }
     }
-    localStorage.setItem("likedFilms", JSON.stringify(savedValue));
+    localStorage.setItem("likes", JSON.stringify(savedValue));
     setToLike(savedValue);
   };
 
@@ -89,7 +89,6 @@ export default function HomePage() {
     getTrendingTVShows();
   }, []);
 
-
   return (
     <>
       <h1>Trending today</h1>
@@ -122,12 +121,14 @@ export default function HomePage() {
               <h4 className={css.headerFour}>Liked films</h4>
 
               {Object.keys(liked).map((key) => {
-                if (key === "id") return null;
+                // if (key === "id") return null;
+                const movie = liked[key];
+                console.log(movie);
                 return (
                   <li key={key} className={css.filmNameList}>
                     <div className={css.name}>
-                      <Link to={`/movies/${liked.id}`} className={css.name}>
-                        {key}
+                      <Link to={`/movies/${movie.id}`} className={css.name}>
+                        {movie.name}
                       </Link>
                     </div>
                     <button

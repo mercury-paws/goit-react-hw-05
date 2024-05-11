@@ -55,30 +55,35 @@ export default function MovieDetailsPage() {
     });
   };
   const [isLiked, setIsLiked] = useState(() => {
-    const savedValue = localStorage.getItem("likedFilms");
+    const savedValue = localStorage.getItem("likes");
     if (savedValue !== null) {
       return JSON.parse(savedValue);
     }
     return false;
   });
   const handleLikeClick = (name, id) => {
-    console.log(name, id);
     setIsLiked((prevIsLiked) => {
-      const updated = {
-        [name]: !prevIsLiked[name],
-        id: id,
-      };
+      // Create or retrieve the existing liked films data from localStorage
+      const likedFilmsFromStorage =
+        JSON.parse(localStorage.getItem("likes")) || {};
+
+      // Toggle liked status for the current movie
       const updatedIsLiked = {
         ...prevIsLiked,
-        ...updated,
+        [name]: !prevIsLiked[name],
       };
-      for (const qwe in updatedIsLiked) {
-        if (!updatedIsLiked[qwe]) {
-          delete updatedIsLiked[qwe];
-        }
+
+      // If the movie is liked, add it to the liked films with its ID and name
+      if (updatedIsLiked[name]) {
+        likedFilmsFromStorage[name] = { name, id };
+      } else {
+        // If the movie is unliked, remove it from the liked films
+        delete likedFilmsFromStorage[name];
       }
 
-      localStorage.setItem("likedFilms", JSON.stringify(updatedIsLiked));
+      // Update localStorage with the updated liked films data
+      localStorage.setItem("likes", JSON.stringify(likedFilmsFromStorage));
+
       return updatedIsLiked;
     });
   };
