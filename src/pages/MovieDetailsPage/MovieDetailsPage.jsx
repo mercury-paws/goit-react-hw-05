@@ -146,7 +146,6 @@ export default function MovieDetailsPage() {
                 >
                   Would like to watch{" "}
                   <ImForward3
-                    // onClick={() => handleToWatchClick(movieId)}
                     className={clsx(
                       clickedToWatch[movieInfo.title]
                         ? css.isLiked

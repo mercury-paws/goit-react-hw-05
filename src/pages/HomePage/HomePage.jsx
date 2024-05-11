@@ -4,7 +4,6 @@ import { fetchTrendingFilms, fetchTrendingTVShows } from "../../request-api";
 import MovieList from "../../components/MovieList/MovieList";
 import TvShow from "../../components/TVshow/TvShow";
 import { Link } from "react-router-dom";
-import { fetchLikedFilms } from "../../backend_api";
 
 export default function HomePage() {
   const [trendingFilms, setTrendingFilms] = useState([]);
@@ -90,19 +89,10 @@ export default function HomePage() {
     getTrendingTVShows();
   }, []);
 
-  async function fetchLiked() {
-    try {
-      const data = await fetchLikedFilms(1);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <>
       <h1>Trending today</h1>
-      <button onClick={() => fetchLiked(1)}>fetch</button>
       {loading && <b>Loading page...</b>}
       {error && <b>Error</b>}
       <div className={css.homepage}>
