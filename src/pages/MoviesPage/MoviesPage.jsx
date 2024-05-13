@@ -14,13 +14,14 @@ export default function MoviePage() {
 
   useEffect(() => {
     async function searchingTheFilm() {
+      if (!query) {
+        return;
+      }
       try {
         setLoading(true);
         setError(false);
         const data = await fetchSearchMovie(query);
-        if (data.length < 1 || !query) {
-          setError(true);
-        }
+
         setsearchMovieResult(data);
 
         console.log(data);
@@ -38,7 +39,10 @@ export default function MoviePage() {
   const searchingTheFilm = (event) => {
     event.preventDefault();
     const query = event.target.elements.searchQuery.value.trim();
-
+    if (query.length < 1 || !query) {
+      setError(true);
+      setsearchMovieResult([]);
+    }
     searchParams.set("query", query);
     setSearchParams(searchParams);
   };
