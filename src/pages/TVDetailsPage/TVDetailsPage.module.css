@@ -60,7 +60,19 @@
 }
 .text {
   font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 5px;
 }
+
+span {
+  font-size: 20px;
+  font-weight: lighter;
+}
+.tagline {
+  padding-bottom: 10px;
+  font-style: italic;
+}
+
 .addInfo {
   border-top: 1px solid rgb(97, 97, 97);
   border-bottom: 1px solid rgb(97, 97, 97);

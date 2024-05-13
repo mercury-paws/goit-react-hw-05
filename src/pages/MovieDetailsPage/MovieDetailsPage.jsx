@@ -38,19 +38,24 @@ export default function MovieDetailsPage() {
     return false;
   });
 
-  const handleToWatchClick = (name) => {
+  const handleToWatchClick = (name, id) => {
     // localStorage.setItem(`selectedFilm: ${filmId}`, movieInfo.title);
     setClickedToWatch((prevToWatch) => {
+      const toWatchFilmsFromStorage =
+        JSON.parse(localStorage.getItem("toWatch")) || {};
+
       const updatedtoWatch = {
         ...prevToWatch,
         [name]: !prevToWatch[name],
       };
-      for (const key in updatedtoWatch) {
-        if (!updatedtoWatch[key]) {
-          delete updatedtoWatch[key];
-        }
+
+      if (updatedtoWatch[name]) {
+        toWatchFilmsFromStorage[name] = { name, id };
+      } else {
+        delete toWatchFilmsFromStorage[name];
       }
-      localStorage.setItem("toWatch", JSON.stringify(updatedtoWatch));
+
+      localStorage.setItem("toWatch", JSON.stringify(toWatchFilmsFromStorage));
       return updatedtoWatch;
     });
   };
@@ -63,27 +68,18 @@ export default function MovieDetailsPage() {
   });
   const handleLikeClick = (name, id) => {
     setIsLiked((prevIsLiked) => {
-      // Create or retrieve the existing liked films data from localStorage
       const likedFilmsFromStorage =
         JSON.parse(localStorage.getItem("likes")) || {};
-
-      // Toggle liked status for the current movie
       const updatedIsLiked = {
         ...prevIsLiked,
         [name]: !prevIsLiked[name],
       };
-
-      // If the movie is liked, add it to the liked films with its ID and name
       if (updatedIsLiked[name]) {
         likedFilmsFromStorage[name] = { name, id };
       } else {
-        // If the movie is unliked, remove it from the liked films
         delete likedFilmsFromStorage[name];
       }
-
-      // Update localStorage with the updated liked films data
       localStorage.setItem("likes", JSON.stringify(likedFilmsFromStorage));
-
       return updatedIsLiked;
     });
   };
@@ -127,6 +123,7 @@ export default function MovieDetailsPage() {
             <div>
               <h3 className={css.title}>{movieInfo.title}</h3>
               <p className={css.text}>User Score: {movieInfo.vote_average}</p>
+              <p className={css.text}>Runtime: {movieInfo.runtime}min</p>
               <h4>Overview</h4>
               <p>{movieInfo.overview}</p>
               <h4>Genres</h4>
@@ -147,7 +144,9 @@ export default function MovieDetailsPage() {
                 <button
                   type="button"
                   className={css.filmBtn}
-                  onClick={() => handleToWatchClick(movieInfo.title)}
+                  onClick={() =>
+                    handleToWatchClick(movieInfo.title, movieInfo.id)
+                  }
                 >
                   Would like to watch{" "}
                   <ImForward3

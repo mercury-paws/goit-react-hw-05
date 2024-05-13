@@ -95,25 +95,30 @@ export default function HomePage() {
       {loading && <b>Loading page...</b>}
       {error && <b>Error</b>}
       <div className={css.homepage}>
-        <ol>
-          {trendingFilms
-            .sort((a, b) => b.vote_average - a.vote_average)
-            .map((movie) => (
-              <li key={movie.id}>
-                <MovieList movie={movie} />
-              </li>
-            ))}
-        </ol>
-        <ol>
-          {trendingTVShows
-            .sort((a, b) => b.vote_average - a.vote_average)
-            .map((tvshow) => (
-              <li key={tvshow.id}>
-                <TvShow tvshow={tvshow} />
-              </li>
-            ))}
-        </ol>
-
+        <div>
+          <b>Trending films</b>
+          <ol>
+            {trendingFilms
+              .sort((a, b) => b.vote_average - a.vote_average)
+              .map((movie) => (
+                <li key={movie.id}>
+                  <MovieList movie={movie} />
+                </li>
+              ))}
+          </ol>
+        </div>
+        <div>
+          <b>Trending TVShows</b>
+          <ol>
+            {trendingTVShows
+              .sort((a, b) => b.vote_average - a.vote_average)
+              .map((tvshow) => (
+                <li key={tvshow.id}>
+                  <TvShow tvshow={tvshow} />
+                </li>
+              ))}
+          </ol>
+        </div>
         <div className={css.container}>
           <h3>My film list</h3>
           <div className={css.likeToWatchContainer}>
@@ -144,18 +149,23 @@ export default function HomePage() {
             </ul>
             <ul className={css.toWatchContainer}>
               <h4 className={css.headerFour}>Films to watch</h4>
-              {Object.keys(toWatch).map((movieName) => (
-                <li key={movieName} className={css.filmNameList}>
-                  <div className={css.name}>{movieName}</div>
-                  <button
-                    onClick={() => handleDeleteToWatch(movieName)}
-                    type="button"
-                    className={css.deleteBtn}
-                  >
-                    Remove from watchlist
-                  </button>
-                </li>
-              ))}
+              {Object.keys(toWatch).map((key) => {
+                const movie = toWatch[key];
+                return (
+                  <li key={key} className={css.filmNameList}>
+                    <Link to={`/movies/${movie.id}`} className={css.name}>
+                      {movie.name}
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteToWatch(key)}
+                      type="button"
+                      className={css.deleteBtn}
+                    >
+                      Remove from watchlist
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

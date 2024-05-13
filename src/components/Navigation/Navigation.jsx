@@ -17,7 +17,7 @@ export default function Navigation() {
         </li>
         <li>
           <NavLink to="/movies" className={getNavLinkClass}>
-            MoviesPage
+            Search the film
           </NavLink>
         </li>
       </ul>

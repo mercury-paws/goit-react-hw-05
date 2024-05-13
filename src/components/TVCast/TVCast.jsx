@@ -39,8 +39,8 @@ export default function TVCast() {
                 <p className={css.noPhoto}>No Photo</p>
               )}
               <div>
-                <p>Name: {actor.original_name}</p>
-                <p>Character: {actor.character}</p>
+                <p>{actor.original_name}</p>
+                {/* <p>Character: {actor.character}</p> */}
               </div>
             </li>
           ))}

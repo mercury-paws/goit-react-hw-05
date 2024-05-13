@@ -38,42 +38,55 @@ export default function TVDetailsPage() {
     return false;
   });
 
-  const handleToWatchClick = (name) => {
+  const handleToWatchClick = (name, id) => {
     // localStorage.setItem(`selectedFilm: ${filmId}`, movieInfo.title);
     setClickedToWatch((prevToWatch) => {
+      const prevToWatchFromLocalStorage =
+        JSON.parse(localStorage.getItem("toWatch")) || {};
+
       const updatedtoWatch = {
         ...prevToWatch,
         [name]: !prevToWatch[name],
       };
-      for (const key in updatedtoWatch) {
-        if (!updatedtoWatch[key]) {
-          delete updatedtoWatch[key];
-        }
+
+      if (updatedtoWatch[name]) {
+        prevToWatchFromLocalStorage[name] = { name, id };
+      } else {
+        delete prevToWatchFromLocalStorage[name];
       }
-      localStorage.setItem("toWatch", JSON.stringify(updatedtoWatch));
+
+      localStorage.setItem(
+        "toWatch",
+        JSON.stringify(prevToWatchFromLocalStorage)
+      );
       return updatedtoWatch;
     });
   };
   const [isLiked, setIsLiked] = useState(() => {
-    const savedValue = localStorage.getItem("likedFilms");
+    const savedValue = localStorage.getItem("likes");
     if (savedValue !== null) {
       return JSON.parse(savedValue);
     }
     return false;
   });
-  const handleLikeClick = (name) => {
+  const handleLikeClick = (name, id) => {
     setIsLiked((prevIsLiked) => {
+      const prevIsLikedFromLocalStorage =
+        JSON.parse(localStorage.getItem("likes")) || {};
+
       const updatedIsLiked = {
         ...prevIsLiked,
         [name]: !prevIsLiked[name],
       };
-      for (const qwe in updatedIsLiked) {
-        if (!updatedIsLiked[qwe]) {
-          delete updatedIsLiked[qwe];
-        }
+      if (updatedIsLiked[name]) {
+        prevIsLikedFromLocalStorage[name] = { name, id };
+      } else {
+        delete prevIsLikedFromLocalStorage[name];
       }
-
-      localStorage.setItem("likedFilms", JSON.stringify(updatedIsLiked));
+      localStorage.setItem(
+        "likes",
+        JSON.stringify(prevIsLikedFromLocalStorage)
+      );
       return updatedIsLiked;
     });
   };
@@ -116,7 +129,20 @@ export default function TVDetailsPage() {
             />
             <div>
               <h3 className={css.title}>{movieInfo.name}</h3>
-              <p className={css.text}>User Score: {movieInfo.vote_average}</p>
+              <p className={css.tagline}>{movieInfo.tagline}</p>
+              <p className={css.text}>
+                User Score: <span>{movieInfo.vote_average}</span>
+              </p>
+              <p className={css.text}>
+                Status: <span>{movieInfo.status}</span>
+              </p>
+              <p className={css.text}>
+                Number of Seasons: <span>{movieInfo.number_of_seasons}</span>
+              </p>
+              <p className={css.text}>
+                Number of Episodes: <span>{movieInfo.number_of_episodes}</span>
+              </p>
+
               <h4>Overview</h4>
               <p>{movieInfo.overview}</p>
               <h4>Genres</h4>
@@ -125,7 +151,7 @@ export default function TVDetailsPage() {
                 <button
                   type="button"
                   className={css.filmBtn}
-                  onClick={() => handleLikeClick(movieInfo.name)}
+                  onClick={() => handleLikeClick(movieInfo.name, movieInfo.id)}
                 >
                   I loved it{" "}
                   <ImHeart
@@ -137,7 +163,9 @@ export default function TVDetailsPage() {
                 <button
                   type="button"
                   className={css.filmBtn}
-                  onClick={() => handleToWatchClick(movieInfo.name)}
+                  onClick={() =>
+                    handleToWatchClick(movieInfo.name, movieInfo.id)
+                  }
                 >
                   Would like to watch{" "}
                   <ImForward3

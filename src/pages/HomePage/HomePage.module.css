@@ -14,7 +14,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 0 25px 25px 25px;
-  width: 1000px;
+  width: 900px;
 }
 .likeContainer {
   padding-left: 25px;
@@ -38,7 +38,7 @@ ul {
   height: 25px;
 }
 .name {
-  width: 150px;
+  width: 100px;
 }
 
 .toWatchContainer {
