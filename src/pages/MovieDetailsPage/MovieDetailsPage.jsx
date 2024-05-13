@@ -122,8 +122,12 @@ export default function MovieDetailsPage() {
             />
             <div>
               <h3 className={css.title}>{movieInfo.title}</h3>
-              <p className={css.text}>User Score: {movieInfo.vote_average}</p>
-              <p className={css.text}>Runtime: {movieInfo.runtime}min</p>
+              <p className={css.text}>
+                User Score: <span>{movieInfo.vote_average}</span>
+              </p>
+              <p className={css.text}>
+                Runtime: <span>{movieInfo.runtime}min</span>
+              </p>
               <h4>Overview</h4>
               <p>{movieInfo.overview}</p>
               <h4>Genres</h4>

@@ -60,6 +60,10 @@
 }
 .text {
   font-size: 20px;
+  font-weight: bold;
+}
+span {
+  font-weight: lighter;
 }
 .addInfo {
   border-top: 1px solid rgb(97, 97, 97);
