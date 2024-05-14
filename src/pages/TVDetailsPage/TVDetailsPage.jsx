@@ -13,7 +13,7 @@ export default function TVDetailsPage() {
   const [movieInfo, setmovieInfo] = useState(null);
 
   const location = useLocation();
-  const backLinkUrlRef = useRef(location.state || "/movies");
+  const backLinkUrlRef = useRef(location.state || "/");
 
   useEffect(() => {
     async function getMovieDetailes() {
@@ -38,7 +38,7 @@ export default function TVDetailsPage() {
     return false;
   });
 
-  const handleToWatchClick = (name, id) => {
+  const handleToWatchClick = (name, id, tv) => {
     // localStorage.setItem(`selectedFilm: ${filmId}`, movieInfo.title);
     setClickedToWatch((prevToWatch) => {
       const prevToWatchFromLocalStorage =
@@ -50,7 +50,7 @@ export default function TVDetailsPage() {
       };
 
       if (updatedtoWatch[name]) {
-        prevToWatchFromLocalStorage[name] = { name, id };
+        prevToWatchFromLocalStorage[name] = { name, id, gen: "tv" };
       } else {
         delete prevToWatchFromLocalStorage[name];
       }
@@ -79,7 +79,7 @@ export default function TVDetailsPage() {
         [name]: !prevIsLiked[name],
       };
       if (updatedIsLiked[name]) {
-        prevIsLikedFromLocalStorage[name] = { name, id };
+        prevIsLikedFromLocalStorage[name] = { name, id, gen: "tv" };
       } else {
         delete prevIsLikedFromLocalStorage[name];
       }

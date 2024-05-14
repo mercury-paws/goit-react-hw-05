@@ -13,7 +13,7 @@ export default function MovieDetailsPage() {
   const [movieInfo, setmovieInfo] = useState(null);
 
   const location = useLocation();
-  const backLinkUrlRef = useRef(location.state || "/movies");
+  const backLinkUrlRef = useRef(location.state || "/");
 
   useEffect(() => {
     async function getMovieDetailes() {
@@ -50,7 +50,7 @@ export default function MovieDetailsPage() {
       };
 
       if (updatedtoWatch[name]) {
-        toWatchFilmsFromStorage[name] = { name, id };
+        toWatchFilmsFromStorage[name] = { name, id, gen: "movies" };
       } else {
         delete toWatchFilmsFromStorage[name];
       }
@@ -75,7 +75,7 @@ export default function MovieDetailsPage() {
         [name]: !prevIsLiked[name],
       };
       if (updatedIsLiked[name]) {
-        likedFilmsFromStorage[name] = { name, id };
+        likedFilmsFromStorage[name] = { name, id, gen: "movies" };
       } else {
         delete likedFilmsFromStorage[name];
       }

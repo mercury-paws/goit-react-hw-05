@@ -132,7 +132,10 @@ export default function HomePage() {
                 return (
                   <li key={key} className={css.filmNameList}>
                     <div className={css.name}>
-                      <Link to={`/movies/${movie.id}`} className={css.name}>
+                      <Link
+                        to={`/${movie.gen}/${movie.id}`}
+                        className={css.name}
+                      >
                         {movie.name}
                       </Link>
                     </div>
@@ -153,7 +156,7 @@ export default function HomePage() {
                 const movie = toWatch[key];
                 return (
                   <li key={key} className={css.filmNameList}>
-                    <Link to={`/movies/${movie.id}`} className={css.name}>
+                    <Link to={`/${movie.gen}/${movie.id}`} className={css.name}>
                       {movie.name}
                     </Link>
                     <button
