@@ -38,7 +38,7 @@ export default function TVDetailsPage() {
     return false;
   });
 
-  const handleToWatchClick = (name, id, tv) => {
+  const handleToWatchClick = (name, id) => {
     // localStorage.setItem(`selectedFilm: ${filmId}`, movieInfo.title);
     setClickedToWatch((prevToWatch) => {
       const prevToWatchFromLocalStorage =
