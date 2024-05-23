@@ -1,8 +1,10 @@
 import { fetchSearchMovie } from "../../request-api";
 import { useState, useEffect } from "react";
-import MovieList from "../../components/MovieList/MovieList";
+// import MovieList from "../../components/MovieList/MovieList";
 import { useSearchParams, useLocation } from "react-router-dom";
 import css from "./MoviesPage.module.css";
+import SearchedFilms from "../../components/SearchedFilms/SearchedFilms";
+// import Upcoming from "../../components/Upcoming/Upcoming";
 export default function MoviePage() {
   const [searchMovieResult, setsearchMovieResult] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,19 +60,22 @@ export default function MoviePage() {
       </form>
       {loading && <b>Loading page...</b>}
       {error && <b>Error, please fill in the correct film name</b>}
-      <ul>
-        {searchMovieResult
-          .sort((a, b) => {
-            const yearA = parseInt(a.release_date.substring(0, 4));
-            const yearB = parseInt(b.release_date.substring(0, 4));
-            return yearB - yearA;
-          })
-          .map((movie) => (
-            <li key={movie.id}>
-              <MovieList movie={movie} state={location} />
-            </li>
-          ))}
-      </ul>
+      <div className={css.searchUpcomingContainer}>
+        <ul className={css.searchedFilms}>
+          {searchMovieResult
+            .sort((a, b) => {
+              const yearA = parseInt(a.release_date.substring(0, 4));
+              const yearB = parseInt(b.release_date.substring(0, 4));
+              return yearB - yearA;
+            })
+            .map((movie) => (
+              <li key={movie.id}>
+                <SearchedFilms movie={movie} state={location} />
+              </li>
+            ))}
+        </ul>
+        {/* <Upcoming /> */}
+      </div>
     </>
   );
 }

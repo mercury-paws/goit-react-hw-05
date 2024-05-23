@@ -1,0 +1,12 @@
+.movieList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 350px;
+  height: 300px;
+  border: 1px solid #111;
+  box-shadow: #5f0606;
+  background-color: aliceblue;
+}
