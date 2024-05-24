@@ -2,6 +2,7 @@ import Layout from "./components/Layout/Layout";
 import { Routes, Route } from "react-router-dom";
 import { lazy } from "react";
 
+const About = lazy(() => import("./pages/About/About"));
 const TVReviews = lazy(() => import("./components/TVReviews/TVReviews"));
 const TVCast = lazy(() => import("./components/TVCast/TVCast"));
 const TVDetailsPage = lazy(() => import("./pages/TVDetailsPage/TVDetailsPage"));
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="cast" element={<TVCast />} />
             <Route path="reviews" element={<TVReviews />} />
           </Route>
+          <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>

@@ -12,7 +12,7 @@ export default function Navigation() {
       <ul className={css.navigation}>
         <li>
           <NavLink to="/" className={getNavLinkClass}>
-            Home
+            Trending & List
           </NavLink>
         </li>
         <li>
@@ -20,7 +20,13 @@ export default function Navigation() {
             Search the film
           </NavLink>
         </li>
+        <li>
+          <NavLink to="/about" className={getNavLinkClass}>
+            About the App
+          </NavLink>
+        </li>
       </ul>
+      <p>by @mercury_paws 🐾</p>
     </nav>
   );
 }
